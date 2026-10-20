@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checklist Lampiran LPJ FIB Unhas 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f6f5f1;--surf:#fff;--ink:#1c2a33;--mute:#5d6b73;--line:#d9d6cc;--acc:#1b5e86;--acc-ink:#fff;--note:#fbf1dc;--note-ink:#5a4210;--ok:#2d7a4f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#141b20;--surf:#1d272e;--ink:#e8ecee;--mute:#9aa8b0;--line:#34424b;--acc:#6db3e0;--acc-ink:#0f1a20;--note:#3a3018;--note-ink:#f0dca8;--ok:#6fcf97}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#141b20;--surf:#1d272e;--ink:#e8ecee;--mute:#9aa8b0;--line:#34424b;--acc:#6db3e0;--acc-ink:#0f1a20;--note:#3a3018;--note-ink:#f0dca8;--ok:#6fcf97}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px 56px}
+header{padding:36px 0 20px}
+h1{font:700 clamp(1.7rem,5vw,2.6rem)/1.1 "Bricolage Grotesque",Georgia,serif;margin:0 0 10px;letter-spacing:-.01em}
+header p{margin:0;color:var(--mute);max-width:60ch}
+.search{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:12px 0}
+.search input{width:100%;font:inherit;padding:13px 16px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);color:var(--ink)}
+.search input:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+h2{font:600 1.05rem "Bricolage Grotesque",Georgia,serif;margin:26px 0 10px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.cat{all:unset;box-sizing:border-box;cursor:pointer;display:block;padding:14px 16px;background:var(--surf);border:1.5px solid var(--line);border-radius:10px;font-weight:600}
+.cat small{display:block;font-weight:400;color:var(--mute);font-size:.88rem;margin-top:2px}
+.cat:hover{border-color:var(--acc)}
+.cat[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.cat[aria-pressed="true"] small{color:inherit;opacity:.85}
+.detail{margin-top:28px;background:var(--surf);border:1.5px solid var(--line);border-radius:14px;padding:22px}
+.detail:empty{display:none}
+.detail h3{font:700 1.5rem "Bricolage Grotesque",Georgia,serif;margin:0 0 4px}
+.prog{color:var(--mute);margin:0 0 14px}
+ul.cl{list-style:none;margin:0;padding:0}
+.cl li{border-top:1px solid var(--line)}
+.cl label{display:flex;gap:12px;align-items:flex-start;padding:12px 2px;cursor:pointer}
+.cl input{width:22px;height:22px;margin-top:2px;accent-color:var(--ok);flex:none}
+.cl input:checked+span{color:var(--mute);text-decoration:line-through}
+.note{margin:0 0 12px 36px;padding:10px 14px;background:var(--note);color:var(--note-ink);border-radius:8px;font-size:.95rem;white-space:pre-line}
+.tools{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;padding:9px 16px;border:1.5px solid var(--line);border-radius:8px;font-weight:600;font-size:.95rem}
+.btn:hover{border-color:var(--acc)}
+.empty{color:var(--mute);padding:20px 0}
+footer{margin-top:36px;color:var(--mute);font-size:.9rem}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Checklist Lampiran LPJ Keuangan</h1>
+<p>Fakultas Ilmu Budaya Universitas Hasanuddin, Tahun 2026. Pilih jenis pengeluaran untuk melihat dokumen yang harus dilampirkan.</p>
+</header>
+<div class="search"><input id="q" type="search" placeholder="Cari jenis kegiatan atau dokumen, misalnya “notulen” atau “KTP”" aria-label="Cari"></div>
+<main id="list"></main>
+<section id="detail" class="detail" aria-live="polite"></section>
+<footer>Disusun dari dokumen Ringkasan LPJ FIB Unhas 2026. Centang di halaman ini hanya untuk membantu Anda memeriksa kelengkapan dan tersimpan di perangkat Anda sendiri.</footer>
+</div>
+<script>
+var G=[
+{g:"Honor",c:[
+{id:"panitia",n:"Honor Kepanitiaan",i:[["Surat Keputusan Penetapan","Jumlah panitia 10% dari peserta atau 1:10."],["Laporan Kegiatan"],["Dokumentasi/Foto Kegiatan"]]},
+{id:"narsum",n:"Honor Pemateri/Narasumber/Moderator",i:[["Surat Keputusan Penetapan","Jika pemateri daring, cukup foto saat daring."],["Undangan dan Rundown Kegiatan"],["Absen Pemateri/Narasumber/Moderator"],["Dokumentasi/Foto Pemateri/Moderator"]]},
+{id:"fgd",n:"Honor FGD",i:[["Surat Keputusan Penetapan","Catatan: jumlah peserta minimal 8 orang dan maksimal 50 orang, melibatkan minimal pejabat Eselon II/setara. Maksimal 3 jam untuk narasumber/pembahas internal dan maksimal 5 jam untuk narasumber eksternal. Harus memiliki output berupa pedoman, peraturan, petunjuk pelaksanaan, petunjuk teknis, laporan keuangan, laporan kinerja atau output sejenis. Tidak termasuk sosialisasi, rapat koordinasi, workshop, dan pelatihan."],["Undangan dan Rundown Acara"],["Daftar Hadir"],["Laporan Kegiatan"],["Dokumentasi/Foto Kegiatan"]]}]},
+{g:"Perjalanan, sewa, dan akomodasi",c:[
+{id:"perjadin",n:"Perjalanan Dinas",i:[["Surat Tugas","Satuan biaya uang harian perjalanan dinas dalam negeri merupakan penggantian biaya keperluan sehari-hari pejabat Unhas/pegawai/pihak lain dalam menjalankan perintah perjalanan dinas di dalam negeri."],["Surat Izin Kementerian (untuk luar negeri)"],["Tiket dan Boarding Pass"],["Akomodasi Hotel/Penginapan"],["Dokumentasi/Foto Kegiatan"],["Laporan Perjalanan Dinas"]]},
+{id:"kendaraan",n:"Sewa Kendaraan",i:[["Surat Tugas yang di dalamnya menyebutkan sewa kendaraan"],["Nota"],["Foto KTP, SIM, dan STNK mobil"],["Daftar Hadir"],["Foto Kendaraan"]]},
+{id:"hotel",n:"Sewa Hotel/Ruangan",i:[["SK Sewa Hotel"],["Nota/Invoice"],["Daftar Hadir"],["Foto KTP/NPWP bagi perusahaan"]]},
+{id:"fullboard",n:"Fullboard",i:[["Surat Tugas"],["Undangan dan Rundown Acara"],["Daftar Hadir"],["Nota/Invoice"],["Berita Acara dan Faktur"]]},
+{id:"uh",n:"Uang Harian dan Transpor",i:[["Surat Tugas"],["Undangan"],["Daftar Hadir"],["Laporan Kegiatan"],["Dokumentasi/Foto Kegiatan"]]}]},
+{g:"Operasional dan lainnya",c:[
+{id:"konsumsi",n:"Konsumsi Rapat",i:[["Undangan dan Rundown","Jika konsumsi bukan untuk rapat, notulen rapat tidak diperlukan.\nRundown kegiatan dipakai jika ada konsumsi makan dan snack."],["Nota atau Invoice"],["Daftar Hadir"],["Dokumentasi/Foto Kegiatan"],["Notulen Rapat"]]},
+{id:"atk",n:"ATK/Spanduk dll",i:[["Nota"],["Foto ATK, spanduk, dll"]]},
+{id:"kit",n:"Seminar Kit dll",i:[["Nota"],["Daftar Penyaluran"],["Foto"]]},
+{id:"publikasi",n:"Publikasi",i:[["SK Penetapan Bantuan Biaya Publikasi"],["Nota/Invoice"],["Bukti Publikasi"],["Bukti Bayar Publikasi"]]},
+{id:"registrasi",n:"Registrasi",i:[["SK/Surat Tugas"],["Nota/Invoice"],["Sertifikat"]]}]},
+{g:"Lembar kendali",c:[
+{id:"kendali",n:"Lembar Kendali LPJ",s:"Daftar dokumen dan cara pengisian",note:"Cara mengisi lembar kendali:\n• Di kolom status, beri centang (√) jika dokumennya ada.\n• Beri tanda silang (X) untuk dokumen yang tidak ada.\n• Beri tanda TP jika dokumen tidak perlu untuk kegiatan tersebut.\n• Isi sesuai kelengkapan LPJ yang diperlukan.\n• Lembar ditandatangani oleh Penerima (Bendahara) dan Yang Menyerahkan (Penanggung Jawab Kegiatan).\n• Ada dua versi: LPJ Keuangan LS (Honor) dan LPJ Keuangan GU (Operasional).",i:[["SK/Surat Tugas"],["Undangan"],["Daftar Hadir"],["Susunan Acara/Rundown"],["Foto/Dokumentasi"],["Laporan Kegiatan/Notulen"],["Nota/Invoice"],["Daftar Penyaluran"],["KTP/STNK/SIM"],["Bukti Publikasi"],["Berita Acara/Faktur"],["Sertifikat"]]}]}
+];
+var ALL=[];G.forEach(function(x){x.c.forEach(function(c){c.g=x.g;ALL.push(c)})});
+var state={};try{state=JSON.parse(localStorage.getItem("lpj-fib")||"{}")}catch(e){}
+function save(){try{localStorage.setItem("lpj-fib",JSON.stringify(state))}catch(e){}}
+var cur=null,$=function(s){return document.querySelector(s)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function renderList(){
+  var q=$("#q").value.trim().toLowerCase(),h="",n=0;
+  G.forEach(function(x){
+    var cs=x.c.filter(function(c){return !q||(c.n+" "+(c.note||"")+" "+c.i.map(function(i){return i.join(" ")}).join(" ")).toLowerCase().indexOf(q)>-1});
+    if(!cs.length)return;n+=cs.length;
+    h+="<h2>"+esc(x.g)+"</h2><div class='grid'>"+cs.map(function(c){
+      return "<button class='cat' data-id='"+c.id+"' aria-pressed='"+(cur===c.id)+"'>"+esc(c.n)+"<small>"+(c.s||c.i.length+" lampiran")+"</small></button>"}).join("")+"</div>"});
+  $("#list").innerHTML=n?h:"<p class='empty'>Tidak ada yang cocok dengan pencarian Anda.</p>";
+}
+function renderDetail(scroll){
+  var c=ALL.filter(function(c){return c.id===cur})[0],d=$("#detail");
+  if(!c){d.innerHTML="";return}
+  var done=c.i.filter(function(_,k){return state[c.id+k]}).length;
+  var h="<h3>"+esc(c.n)+"</h3><p class='prog'>"+done+" dari "+c.i.length+" dokumen sudah dicek</p>";
+  if(c.note)h+="<p class='note' style='margin-left:0'>"+esc(c.note)+"</p>";
+  h+="<ul class='cl'>"+c.i.map(function(it,k){
+    return "<li><label><input type='checkbox' data-k='"+c.id+k+"'"+(state[c.id+k]?" checked":"")+"><span>"+esc(it[0])+"</span></label>"+(it[1]?"<p class='note'>"+esc(it[1])+"</p>":"")+"</li>"}).join("")+"</ul>";
+  h+="<div class='tools'><button class='btn' id='reset'>Hapus semua centang</button><button class='btn' id='close'>Tutup</button></div>";
+  d.innerHTML=h;
+  if(scroll)d.scrollIntoView({block:"start"});
+}
+function open(id,scroll){cur=id;renderList();renderDetail(scroll);try{history.replaceState(null,"","#"+id)}catch(e){}}
+$("#list").addEventListener("click",function(e){var b=e.target.closest(".cat");if(b)open(b.dataset.id,true)});
+$("#detail").addEventListener("change",function(e){var k=e.target.dataset.k;if(!k)return;state[k]=e.target.checked;save();renderDetail(false)});
+$("#detail").addEventListener("click",function(e){
+  var c=ALL.filter(function(c){return c.id===cur})[0];
+  if(e.target.id==="reset"){c.i.forEach(function(_,k){delete state[c.id+k]});save();renderDetail(false)}
+  if(e.target.id==="close"){cur=null;renderList();renderDetail(false)}});
+$("#q").addEventListener("input",renderList);
+renderList();
+var hv=location.hash.slice(1);if(ALL.some(function(c){return c.id===hv}))open(hv,false);
+</script>
+</body>
+</html>
