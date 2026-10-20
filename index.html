@@ -32,11 +32,10 @@ h2{font:600 1.05rem "Bricolage Grotesque",Georgia,serif;margin:26px 0 10px;color
 .detail:empty{display:none}
 .detail h3{font:700 1.5rem "Bricolage Grotesque",Georgia,serif;margin:0 0 4px}
 .prog{color:var(--mute);margin:0 0 14px}
-ul.cl{list-style:none;margin:0;padding:0}
-.cl li{border-top:1px solid var(--line)}
-.cl label{display:flex;gap:12px;align-items:flex-start;padding:12px 2px;cursor:pointer}
-.cl input{width:22px;height:22px;margin-top:2px;accent-color:var(--ok);flex:none}
-.cl input:checked+span{color:var(--mute);text-decoration:line-through}
+ol.cl{list-style:none;margin:0;padding:0;counter-reset:n}
+.cl li{border-top:1px solid var(--line);padding:12px 2px;display:grid;grid-template-columns:2rem 1fr;counter-increment:n}
+.cl li::before{content:counter(n);color:var(--mute);font-weight:600}
+.cl .note{grid-column:2;margin:8px 0 0}
 .note{margin:0 0 12px 36px;padding:10px 14px;background:var(--note);color:var(--note-ink);border-radius:8px;font-size:.95rem;white-space:pre-line}
 .tools{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
 .btn{all:unset;box-sizing:border-box;cursor:pointer;padding:9px 16px;border:1.5px solid var(--line);border-radius:8px;font-weight:600;font-size:.95rem}
@@ -55,7 +54,7 @@ footer{margin-top:36px;color:var(--mute);font-size:.9rem}
 <div class="search"><input id="q" type="search" placeholder="Cari jenis kegiatan atau dokumen, misalnya “notulen” atau “KTP”" aria-label="Cari"></div>
 <main id="list"></main>
 <section id="detail" class="detail" aria-live="polite"></section>
-<footer>Disusun dari dokumen Ringkasan LPJ FIB Unhas 2026. Centang di halaman ini hanya untuk membantu Anda memeriksa kelengkapan dan tersimpan di perangkat Anda sendiri.</footer>
+<footer>Disusun dari dokumen Ringkasan LPJ FIB Unhas 2026.</footer>
 </div>
 <script>
 var G=[
@@ -79,8 +78,6 @@ var G=[
 {id:"kendali",n:"Lembar Kendali LPJ",s:"Daftar dokumen dan cara pengisian",note:"Cara mengisi lembar kendali:\n• Di kolom status, beri centang (√) jika dokumennya ada.\n• Beri tanda silang (X) untuk dokumen yang tidak ada.\n• Beri tanda TP jika dokumen tidak perlu untuk kegiatan tersebut.\n• Isi sesuai kelengkapan LPJ yang diperlukan.\n• Lembar ditandatangani oleh Penerima (Bendahara) dan Yang Menyerahkan (Penanggung Jawab Kegiatan).\n• Ada dua versi: LPJ Keuangan LS (Honor) dan LPJ Keuangan GU (Operasional).",i:[["SK/Surat Tugas"],["Undangan"],["Daftar Hadir"],["Susunan Acara/Rundown"],["Foto/Dokumentasi"],["Laporan Kegiatan/Notulen"],["Nota/Invoice"],["Daftar Penyaluran"],["KTP/STNK/SIM"],["Bukti Publikasi"],["Berita Acara/Faktur"],["Sertifikat"]]}]}
 ];
 var ALL=[];G.forEach(function(x){x.c.forEach(function(c){c.g=x.g;ALL.push(c)})});
-var state={};try{state=JSON.parse(localStorage.getItem("lpj-fib")||"{}")}catch(e){}
-function save(){try{localStorage.setItem("lpj-fib",JSON.stringify(state))}catch(e){}}
 var cur=null,$=function(s){return document.querySelector(s)};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function renderList(){
@@ -95,21 +92,18 @@ function renderList(){
 function renderDetail(scroll){
   var c=ALL.filter(function(c){return c.id===cur})[0],d=$("#detail");
   if(!c){d.innerHTML="";return}
-  var done=c.i.filter(function(_,k){return state[c.id+k]}).length;
-  var h="<h3>"+esc(c.n)+"</h3><p class='prog'>"+done+" dari "+c.i.length+" dokumen sudah dicek</p>";
+  var h="<h3>"+esc(c.n)+"</h3><p class='prog'>"+c.i.length+" dokumen"+(c.note?"":" yang harus dilampirkan")+"</p>";
   if(c.note)h+="<p class='note' style='margin-left:0'>"+esc(c.note)+"</p>";
-  h+="<ul class='cl'>"+c.i.map(function(it,k){
-    return "<li><label><input type='checkbox' data-k='"+c.id+k+"'"+(state[c.id+k]?" checked":"")+"><span>"+esc(it[0])+"</span></label>"+(it[1]?"<p class='note'>"+esc(it[1])+"</p>":"")+"</li>"}).join("")+"</ul>";
-  h+="<div class='tools'><button class='btn' id='reset'>Hapus semua centang</button><button class='btn' id='close'>Tutup</button></div>";
+  h+="<ol class='cl'>"+c.i.map(function(it){
+    return "<li><span>"+esc(it[0])+"</span>"+(it[1]?"<p class='note'>"+esc(it[1])+"</p>":"")+"</li>"}).join("")+"</ol>";
+  h+="<div class='tools'><button class='btn' id='close'>Tutup</button></div>";
   d.innerHTML=h;
   if(scroll)d.scrollIntoView({block:"start"});
 }
 function open(id,scroll){cur=id;renderList();renderDetail(scroll);try{history.replaceState(null,"","#"+id)}catch(e){}}
 $("#list").addEventListener("click",function(e){var b=e.target.closest(".cat");if(b)open(b.dataset.id,true)});
-$("#detail").addEventListener("change",function(e){var k=e.target.dataset.k;if(!k)return;state[k]=e.target.checked;save();renderDetail(false)});
 $("#detail").addEventListener("click",function(e){
   var c=ALL.filter(function(c){return c.id===cur})[0];
-  if(e.target.id==="reset"){c.i.forEach(function(_,k){delete state[c.id+k]});save();renderDetail(false)}
   if(e.target.id==="close"){cur=null;renderList();renderDetail(false)}});
 $("#q").addEventListener("input",renderList);
 renderList();
